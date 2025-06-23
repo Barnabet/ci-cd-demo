@@ -31,8 +31,7 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ci-cd-demo:backend
           build-args: |
             NODE_ENV=production
-          secrets: |
-            "BACKEND_SECRET=${{ secrets.BACKEND_SECRET }}"
+            BACKEND_SECRET=${{ secrets.BACKEND_SECRET }}
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
@@ -42,8 +41,7 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ci-cd-demo:frontend
           build-args: |
             NODE_ENV=production
-          secrets: |
-            "FRONTEND_SECRET=${{ secrets.FRONTEND_SECRET }}"
+            FRONTEND_SECRET=${{ secrets.FRONTEND_SECRET }}
 
   notify-deploy:
     needs: build-and-push
