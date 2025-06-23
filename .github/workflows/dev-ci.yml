@@ -50,7 +50,7 @@ jobs:
           npm audit --audit-level=high || true
 
       - name: Run Snyk scan
-        uses: snyk/actions/node@v3
+        uses: snyk/actions/node@master
         with:
           command: test
         env:
