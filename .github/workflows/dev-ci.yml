@@ -1,0 +1,61 @@
+name: CI on PR to dev
+
+on:
+  pull_request:
+    branches: [dev]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies (backend)
+        run: |
+          cd backend
+          npm ci
+
+      - name: Install dependencies (frontend)
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Lint backend
+        run: |
+          cd backend
+          npm run lint --if-present
+
+      - name: Lint frontend
+        run: |
+          cd frontend
+          npm run lint --if-present
+
+      - name: npm audit (backend)
+        run: |
+          cd backend
+          npm audit --audit-level=high || true
+
+      - name: npm audit (frontend)
+        run: |
+          cd frontend
+          npm audit --audit-level=high || true
+
+      - name: Run Snyk scan
+        uses: snyk/actions/node@v3
+        with:
+          command: test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Build Docker images
+        run: |
+          docker-compose build 

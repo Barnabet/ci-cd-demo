@@ -1,0 +1,17 @@
+{
+  "name": "ci-demo-frontend",
+  "version": "1.0.0",
+  "description": "Simple frontend for CI/CD demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint . --ext .js --max-warnings 0",
+    "test": "echo \"No tests configured\""
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.55.0"
+  }
+} 
