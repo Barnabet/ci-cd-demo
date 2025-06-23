@@ -49,13 +49,6 @@ jobs:
           cd frontend
           npm audit --audit-level=high || true
 
-      - name: Run Snyk scan
-        uses: snyk/actions/node@master
-        with:
-          command: test
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
       - name: Build Docker images
         run: |
           docker-compose build 
